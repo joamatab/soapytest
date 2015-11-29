@@ -5,34 +5,12 @@ from soapy import atmosphere
 from aotools.circle import zernike
 
 import matplotlib.pylab as plt
+from astropy.io import fits
 
+import os
+FILEPATH = os.path.dirname(os.path.abspath(__file__))
 
-def test_power_spectra(r0, N, delta, L0, l0):
-    N*= 10
-    phase_screen = atmosphere.ft_phase_screen(r0, N, delta, L0, l0)
-    phase_screen = phase_screen[:N/10, :N/10]
-    power_spec_2d = numpy.fft.fft2(phase_screen, s=(N*2, N*2))
-
-    plt.figure()
-    plt.imshow(numpy.abs(numpy.fft.fftshift(power_spec_2d)), interpolation='nearest')
-
-    power_spec = circle.aziAvg(numpy.abs(numpy.fft.fftshift(power_spec_2d)))
-    power_spec /= power_spec.sum()
-
-    freqs = numpy.fft.fftfreq(power_spec_2d.shape[0], delta)
-
-    print freqs
-
-    plt.figure()
-    plt.plot(freqs[:freqs.size/2], power_spec)
-    plt.xscale('log')
-    plt.yscale('log')
-    plt.show()
-
-    return None
-
-
-def testNollSpectrum(nZerns, nScrns, scrnSize, subScrnSize, r0):
+def getZernCoeffs(nZerns, nScrns, scrnSize, subScrnSize, r0):
 
     Zs = zernike.zernikeArray(nZerns+1, subScrnSize)[1:]
 
@@ -61,6 +39,11 @@ def testNollSpectrum(nZerns, nScrns, scrnSize, subScrnSize, r0):
 
     return zCoeffs
 
+
+def loadNoll():
+
+    pass
+
 if __name__=="__main__":
 
     # Number of scrns to average over
@@ -70,4 +53,4 @@ if __name__=="__main__":
     subScrnSize = 256
     scrnSize = 512
 
-    zCoeffs = testNollSpectrum(nZerns, nScrns, scrnSize, subScrnSize, r0)
+    #zCoeffs = testNollSpectrum(nZerns, nScrns, scrnSize, subScrnSize, r0)
