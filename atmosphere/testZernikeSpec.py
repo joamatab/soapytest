@@ -33,6 +33,9 @@ def getZernCoeffs(nZerns, nScrns, scrnSize, subScrnSize, r0):
                         y*subScrnSize: (y+1)*subScrnSize]
                 subScrn = subScrn.reshape(subScrnSize*subScrnSize)
 
+                # Turn into radians. r0 defined at 500nm, scrns in nm
+                subScrn /= (500/(2*numpy.pi))
+
                 # Dot with zernikes to get powerspec
                 zCoeffs[:, i] = (Zs*subScrn).sum(1)
                 i+=1
@@ -40,17 +43,44 @@ def getZernCoeffs(nZerns, nScrns, scrnSize, subScrnSize, r0):
     return zCoeffs
 
 
-def loadNoll():
+def loadNoll(nZerns):
+    """
+    Loads the noll reference values for Zernike variance in Kolmogorov turbulence.
+    """
+    nollPath = os.path.join(FILEPATH, "../resources/noll.fits")
+    noll = fits.getdata(nollPath)
 
-    pass
+    return noll.diagonal()[:nZerns]
+
+
+def testZernSpec(nZerns, nScrns, scrnSize, subScrnSize, r0):
+
+    noll = loadNoll(nZerns)
+    zCoeffs = getZernCoeffs(nZerns, nScrns, scrnSize, subScrnSize, r0)
+    zVar = zCoeffs.var(1)
+
+    return zVar, noll
+
+def plotZernSpec(zVar, noll):
+
+    plt.figure()
+    plt.semilogy(zVar, label="Phase Screens")
+    plt.semilogy(noll, label="Noll reference")
+
+    plt.xlabel("Zernike mode index")
+    plt.ylabel("Power ($rad^2$)")
+
+    plt.show()
 
 if __name__=="__main__":
 
     # Number of scrns to average over
-    nScrns = 500
+    nScrns = 10000
     r0 = 1. # R0 value to use in test
     nZerns = 50
     subScrnSize = 256
     scrnSize = 512
 
-    #zCoeffs = testNollSpectrum(nZerns, nScrns, scrnSize, subScrnSize, r0)
+
+    zVar, noll = testZernSpec(nZerns, nScrns, scrnSize, subScrnSize, r0)
+    plotZernSpec(zVar, noll)

@@ -29,3 +29,25 @@ def test_power_spectra(r0, N, delta, L0, l0):
     plt.show()
 
     return None
+
+def theoPowerSpec(cn2, lambda, freqs, L0=None, l0=None):
+
+    # if no l0 or L0, assume kolmogorov
+    if L0==None and l0==None:
+        powSpec = 0.033 * cn2 * freqs**(-11./3)
+
+    # Assumume Von Karman
+    if L0!=None and l0==None:
+        k0 = 2*numpy.pi/L0
+        powSpec = 0.033 * cn2 * (freqs**2 + k0**2)**(-11./6)
+
+    # Assume modified Von Karman
+    if L0!=None and l0!=None:
+        k0 = 2*numpy.pi/L0
+        km = 5.92/l0
+        powSpec = 0.033 * cn2 * numpy.exp(-(freqs/km)**2) * (freqs**2 + k0**2)**(-11./6)
+
+    else:
+        raise ValueError("Aint got a power spectrum for that L0/l0 combo!")
+
+    return powSpec
