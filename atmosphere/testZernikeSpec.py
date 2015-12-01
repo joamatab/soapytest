@@ -12,8 +12,9 @@ FILEPATH = os.path.dirname(os.path.abspath(__file__))
 
 def getZernCoeffs(nZerns, nScrns, scrnSize, subScrnSize, r0):
 
-    Zs = zernike.zernikeArray(nZerns+1, subScrnSize)[1:]
-
+    Zs = zernike.zernikeArray(nZerns+1, subScrnSize)
+    piston = Zs[0]
+    Zs = Zs[1:]
     Zs.shape = nZerns, subScrnSize*subScrnSize
 
     subsPerScrn = scrnSize/subScrnSize
@@ -34,10 +35,10 @@ def getZernCoeffs(nZerns, nScrns, scrnSize, subScrnSize, r0):
                 subScrn = subScrn.reshape(subScrnSize*subScrnSize)
 
                 # Turn into radians. r0 defined at 500nm, scrns in nm
-                subScrn /= (500/(2*numpy.pi))
+                # subScrn /= (500/(2*numpy.pi))
 
                 # Dot with zernikes to get powerspec
-                zCoeffs[:, i] = (Zs*subScrn).sum(1)
+                zCoeffs[:, i] = (Zs*subScrn).sum(1)/piston.sum()
                 i+=1
 
     return zCoeffs
@@ -70,12 +71,14 @@ def plotZernSpec(zVar, noll):
     plt.xlabel("Zernike mode index")
     plt.ylabel("Power ($rad^2$)")
 
+    plt.legend(loc=0)
+
     plt.show()
 
 if __name__=="__main__":
 
     # Number of scrns to average over
-    nScrns = 10000
+    nScrns = 1000
     r0 = 1. # R0 value to use in test
     nZerns = 50
     subScrnSize = 256
