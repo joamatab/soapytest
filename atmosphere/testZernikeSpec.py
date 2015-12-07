@@ -10,7 +10,8 @@ from astropy.io import fits
 import os
 FILEPATH = os.path.dirname(os.path.abspath(__file__))
 
-def getZernCoeffs(nZerns, nScrns, scrnSize, subScrnSize, r0):
+def getZernCoeffs(
+        nZerns, nScrns, scrnSize, subScrnSize, r0, subHarmonics=False):
 
     Zs = zernike.zernikeArray(nZerns+1, subScrnSize)
     piston = Zs[0]
@@ -23,8 +24,12 @@ def getZernCoeffs(nZerns, nScrns, scrnSize, subScrnSize, r0):
     i = 0
     for n in range(nScrns):
         # Make one big screen
-        scrn = atmosphere.ft_phase_screen(
-                r0, scrnSize, 1./subScrnSize, 100., 0.01)
+        if subHarmonics:
+            scrn = atmosphere.ft_sh_phase_screen(
+                    r0, scrnSize, 1./subScrnSize, 100., 0.01)
+        else:
+            scrn = atmosphere.ft_phase_screen(
+                    r0, scrnSize, 1./subScrnSize, 100., 0.01)
 
         # Pick out as many sub-scrns as possible to actually test
         for x in range(subsPerScrn):
@@ -54,15 +59,18 @@ def loadNoll(nZerns):
     return noll.diagonal()[:nZerns]
 
 
-def testZernSpec(nZerns, nScrns, scrnSize, subScrnSize, r0):
+def testZernSpec(
+        nZerns, nScrns, scrnSize, subScrnSize, r0, subHarmonics=False):
 
     noll = loadNoll(nZerns)
-    zCoeffs = getZernCoeffs(nZerns, nScrns, scrnSize, subScrnSize, r0)
+    zCoeffs = getZernCoeffs(
+            nZerns, nScrns, scrnSize, subScrnSize, r0,
+            subHarmonics=subHarmonics)
     zVar = zCoeffs.var(1)
 
     return zVar, noll
 
-def plotZernSpec(zVar, noll):
+def plotZernSpec(zVar, noll, filename=None, show=False):
 
     plt.figure()
     plt.semilogy(zVar, label="Phase Screens")
@@ -73,12 +81,15 @@ def plotZernSpec(zVar, noll):
 
     plt.legend(loc=0)
 
-    plt.show()
+    if filename!=None:
+        plt.savefig(filename)
+    if show:
+        plt.show()
 
 if __name__=="__main__":
 
     # Number of scrns to average over
-    nScrns = 1000
+    nScrns = 200
     r0 = 1. # R0 value to use in test
     nZerns = 50
     subScrnSize = 256
@@ -86,4 +97,9 @@ if __name__=="__main__":
 
 
     zVar, noll = testZernSpec(nZerns, nScrns, scrnSize, subScrnSize, r0)
-    plotZernSpec(zVar, noll)
+    plotZernSpec(zVar, noll, "zernikeVariance.pdf")
+
+
+    zVar_sh, noll = testZernSpec(
+            nZerns, nScrns, scrnSize, subScrnSize, r0, subHarmonics=True)
+    plotZernSpec(zVar_sh, noll, "zernikeVariance_subHarmonics.pdf")

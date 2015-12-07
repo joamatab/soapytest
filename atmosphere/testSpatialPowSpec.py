@@ -30,7 +30,8 @@ def test_power_spectra(r0, N, delta, L0, l0):
 
     return None
 
-def theoPowerSpec(cn2, lambda, freqs, L0=None, l0=None):
+def theoPowerSpec(cn2, freqs, L0=None, l0=None):
+
 
     # if no l0 or L0, assume kolmogorov
     if L0==None and l0==None:
