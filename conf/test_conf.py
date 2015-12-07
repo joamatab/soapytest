@@ -12,13 +12,13 @@ simConfiguration = {
 "Sim":{
     "simName"       :  "sh_8x8",
     "logfile"       :   "sh_8x8.log",
-    "pupilSize"     :   128, 
+    "pupilSize"     :   256,
     "nGS"           :   1,
     "nDM"           :   2,
     "nSci"          :   1,
     "nIters"        :   5000,
     "loopTime"      :   1/400.0,
-    "reconstructor" :   "MVM", 
+    "reconstructor" :   "MVM",
 
     "verbosity"     :   2,
 
@@ -50,11 +50,11 @@ simConfiguration = {
     "GSHeight"      :   [0],
     "GSMag"         :   [8],
     "nxSubaps"      :   [8],
-    "pxlsPerSubap"  :   [10],
+    "pxlsPerSubap"  :   [12],
     "subapFOV"      :   [2.5],
     "fftOversamp"   :   [3],
     "wavelength"    :   [600e-9],
-    "centMethod"    :   ["brightestPxl"],
+    "centMethod"    :   ["centreOfGravity"],
     "centThreshold" :   [0.1],
 
     },
@@ -80,6 +80,3 @@ simConfiguration = {
     "fftOversamp"   :   [2],
     }
 }
-
-
-
