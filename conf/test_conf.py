@@ -12,7 +12,7 @@ simConfiguration = {
 "Sim":{
     "simName"       :  "sh_8x8",
     "logfile"       :   "sh_8x8.log",
-    "pupilSize"     :   256,
+    "pupilSize"     :   128,
     "nGS"           :   1,
     "nDM"           :   2,
     "nSci"          :   1,
@@ -50,7 +50,7 @@ simConfiguration = {
     "GSHeight"      :   [0],
     "GSMag"         :   [8],
     "nxSubaps"      :   [8],
-    "pxlsPerSubap"  :   [12],
+    "pxlsPerSubap"  :   [20],
     "subapFOV"      :   [2.5],
     "fftOversamp"   :   [3],
     "wavelength"    :   [600e-9],

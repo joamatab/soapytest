@@ -74,6 +74,9 @@ def plotPxlScale(meanCents, pxlScales, angles):
 
     for i, p in enumerate(pxlScales):
         pyplot.plot(angles, meanCents[i,:,1], label="Pixel Scale: {}".format(p))
+
+    pyplot.plot(angles, angles, color="k")
+
     pyplot.legend()
     pyplot.xlabel('tilt (arcsec)')
     pyplot.ylabel('centroid position (arcsec)')
@@ -81,8 +84,8 @@ def plotPxlScale(meanCents, pxlScales, angles):
 
 if __name__ == "__main__":
     configfile = "conf/test_conf.py"
-    pxlScales = [0.2, 0.4, 0.8]
-    angles = numpy.linspace(-3, 3, 25)
+    pxlScales = numpy.linspace(0.2, 0.8, 5)
+    angles = numpy.linspace(-6, 6, 25)
 
     meanCents, wfs = testPxlScale(configfile, pxlScales, angles)
-    # plotPxlScale(meanCents, pxlScales, angles)
+    plotPxlScale(meanCents, pxlScales, angles)
