@@ -4,7 +4,6 @@ import unittest
 from soapy import atmosphere
 from soapy import aoSimLib
 
-import matplotlib.pylab as plt
 from astropy.io import fits
 
 import os
