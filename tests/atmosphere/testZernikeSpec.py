@@ -2,7 +2,7 @@ import numpy
 import unittest
 
 from soapy import atmosphere
-from saopy import aoSimLib
+from soapy import aoSimLib
 
 import matplotlib.pylab as plt
 from astropy.io import fits
