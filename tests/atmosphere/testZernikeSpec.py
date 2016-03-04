@@ -2,8 +2,7 @@ import numpy
 import unittest
 
 from soapy import atmosphere
-
-from aotools.circle import zernike
+from saopy import aoSimLib
 
 import matplotlib.pylab as plt
 from astropy.io import fits
@@ -34,7 +33,7 @@ def testZernSpec():
 def getZernCoeffs(
         nZerns, nScrns, scrnSize, subScrnSize, r0, subHarmonics=False):
 
-    Zs = zernike.zernikeArray(nZerns+1, subScrnSize)
+    Zs = aoSimLib.zernikeArray(nZerns+1, subScrnSize)
     piston = Zs[0]
     Zs = Zs[1:]
     Zs.shape = nZerns, subScrnSize*subScrnSize
