@@ -1,4 +1,5 @@
-# Soapy Tests
+
+# Soapytests
 
 This is a package with lots of tests of the science within the Soapy simulation.
 

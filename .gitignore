@@ -62,3 +62,6 @@ target/
 *_bkup
 
 *.DS_Store
+
+#Ipython Notebook
+.ipynb_checkpoints
