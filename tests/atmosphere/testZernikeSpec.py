@@ -1,4 +1,5 @@
 import numpy
+import unittest
 
 from soapy import atmosphere
 
@@ -9,6 +10,26 @@ from astropy.io import fits
 
 import os
 FILEPATH = os.path.dirname(os.path.abspath(__file__))
+
+
+NZERNS = 50
+NSCRNS = 100
+SCRNSIZE = 512
+SUBSCRNSIZE = 256
+R0 = 1.
+
+
+def testZernSpec():
+
+    noll = loadNoll(NZERNS)
+    zCoeffs = getZernCoeffs(NZERNS, NSCRNS, SCRNSIZE, SUBSCRNSIZE, R0)
+    zVar = zCoeffs.var(1)
+
+    # Check zernikes from phase screen match noll matrix ignoring tip/tilt
+    assert numpy.allclose(zVar[2:], noll[2:], atol=5.e-3)
+
+    return zVar, noll
+
 
 def getZernCoeffs(
         nZerns, nScrns, scrnSize, subScrnSize, r0, subHarmonics=False):
@@ -53,22 +74,11 @@ def loadNoll(nZerns):
     """
     Loads the noll reference values for Zernike variance in Kolmogorov turbulence.
     """
-    nollPath = os.path.join(FILEPATH, "../resources/noll.fits")
+    nollPath = os.path.join(FILEPATH, "../../resources/noll.fits")
     noll = fits.getdata(nollPath)
 
     return noll.diagonal()[:nZerns]
 
-
-def testZernSpec(
-        nZerns, nScrns, scrnSize, subScrnSize, r0, subHarmonics=False):
-
-    noll = loadNoll(nZerns)
-    zCoeffs = getZernCoeffs(
-            nZerns, nScrns, scrnSize, subScrnSize, r0,
-            subHarmonics=subHarmonics)
-    zVar = zCoeffs.var(1)
-
-    return zVar, noll
 
 def plotZernSpec(zVar, noll, filename=None, show=False):
 
@@ -96,10 +106,5 @@ if __name__=="__main__":
     scrnSize = 512
 
 
-    zVar, noll = testZernSpec(nZerns, nScrns, scrnSize, subScrnSize, r0)
+    zVar, noll = testZernSpec()
     plotZernSpec(zVar, noll, "zernikeVariance.pdf")
-
-
-    zVar_sh, noll = testZernSpec(
-            nZerns, nScrns, scrnSize, subScrnSize, r0, subHarmonics=True)
-    plotZernSpec(zVar_sh, noll, "zernikeVariance_subHarmonics.pdf")

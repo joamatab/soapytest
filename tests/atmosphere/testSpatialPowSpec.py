@@ -3,6 +3,7 @@ import numpy
 from soapy import atmosphere
 
 from aotools.circle import zernike
+from aotools import circle
 
 import matplotlib.pylab as plt
 
@@ -19,6 +20,8 @@ def test_power_spectra(r0, N, delta, L0, l0):
     power_spec /= power_spec.sum()
 
     freqs = numpy.fft.fftfreq(power_spec_2d.shape[0], delta)
+
+    # Theoretical Model of Power Spectrum
 
     print freqs
 

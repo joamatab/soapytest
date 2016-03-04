@@ -25,7 +25,7 @@ before_install:
 
 # Install packages
 install:
-  - conda install --yes python=$TRAVIS_PYTHON_VERSION atlas numpy scipy nose astropy numba
+  - conda install --yes python=$TRAVIS_PYTHON_VERSION atlas numpy scipy nose astropy
   - pip install pyfftw
 
   # Install Soapy
@@ -40,7 +40,7 @@ install:
 #     cd test
 
 script:
-    - nosetests --verbosity=3  test/
+    - nosetests --verbosity=3  tests/atmosphere/testZernikeSpec.py
 
 # Use if anything needs to be done after tests are passed
 # after_success:
