@@ -16,19 +16,6 @@ SCRNSIZE = 512
 SUBSCRNSIZE = 256
 R0 = 1.
 
-
-def testZernSpec():
-
-    noll = loadNoll(NZERNS)
-    zCoeffs = getZernCoeffs(NZERNS, NSCRNS, SCRNSIZE, SUBSCRNSIZE, R0)
-    zVar = zCoeffs.var(1)
-
-    # Check zernikes from phase screen match noll matrix ignoring tip/tilt
-    assert numpy.allclose(zVar[2:], noll[2:], atol=5.e-3)
-
-    return zVar, noll
-
-
 def getZernCoeffs(
         nZerns, nScrns, scrnSize, subScrnSize, r0, subHarmonics=False):
 

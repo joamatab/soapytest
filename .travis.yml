@@ -40,7 +40,7 @@ install:
 #     cd test
 
 script:
-    - nosetests --verbosity=3  tests/atmosphere/testZernikeSpec.py
+    - nosetests --verbosity=3  test/
 
 # Use if anything needs to be done after tests are passed
 # after_success:
