@@ -24,7 +24,7 @@ def getZernCoeffs(
     Zs = Zs[1:]
     Zs.shape = nZerns, subScrnSize*subScrnSize
 
-    subsPerScrn = scrnSize/subScrnSize
+    subsPerScrn = int(scrnSize/subScrnSize)
     zCoeffs = numpy.zeros((nZerns, nScrns*(subsPerScrn**2)))
 
     i = 0
