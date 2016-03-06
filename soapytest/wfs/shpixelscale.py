@@ -88,6 +88,9 @@ class SHPixelScale(object):
             self.measuredTilts[iA] = self.getSlopeFromTilt(A)
 
     def measurePxlScale(self, pxlScale):
+        """
+        Measure the pixel scale by running increasing tilts and using a linear fit on the resulting slopes.
+        """
         self.pxlScale = pxlScale
 
         self.runTilts()
@@ -100,6 +103,9 @@ class SHPixelScale(object):
         return pxlScale, bias
 
     def testPxlScale(self, minPS, maxPS, nPS=10):
+        """
+        Tests various pixels scales
+        """
 
         pxlScales = numpy.linspace(minPS, maxPS, nPS)
         print("Test pixel scales: {}".format(pxlScales))
