@@ -11,13 +11,14 @@ FILEPATH = os.path.dirname(os.path.abspath(__file__))
 
 
 NZERNS = 50
-NSCRNS = 100
-SCRNSIZE = 512
-SUBSCRNSIZE = 256
+NSCRNS = 200
+SCRNSIZE = 1024
+SUBSCRNSIZE = 128
 R0 = 1.
 
 def getZernCoeffs(
-        nZerns, nScrns, scrnSize, subScrnSize, r0, subHarmonics=False):
+        nZerns=NZERNS, nScrns=NSCRNS, scrnSize=SCRNSIZE,
+        subScrnSize=SUBSCRNSIZE, r0=R0, subHarmonics=False):
 
     Zs = aoSimLib.zernikeArray(nZerns+1, subScrnSize)
     piston = Zs[0]
@@ -55,7 +56,7 @@ def getZernCoeffs(
     return zCoeffs
 
 
-def loadNoll(nZerns):
+def loadNoll(nZerns=NZERNS):
     """
     Loads the noll reference values for Zernike variance in Kolmogorov turbulence.
     """

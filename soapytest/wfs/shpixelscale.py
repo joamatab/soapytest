@@ -4,6 +4,9 @@ from soapy import confParse, wfs, aoSimLib
 
 SOAPY_CONF = "conf/test_conf.py"
 PXLS_PER_SUBAP = 30
+MIN_PIXELSCALE = 0.1
+MAX_PIXELSCALE = 0.3
+
 
 class SHPixelScale(object):
     def __init__(self, configfile=SOAPY_CONF):
@@ -137,7 +140,9 @@ class SHPixelScale(object):
         self._maxtilt = maxtilt
 
 
-def testPixelScale(minPS, maxPS, configfile=SOAPY_CONF, nPS=10):
+def testPixelScale(
+        minPS=MIN_PIXELSCALE, maxPS=MAX_PIXELSCALE, configfile=SOAPY_CONF,
+        nPS=10):
     test = SHPixelScale(configfile=configfile)
     pxlScales, measuredPxlScales = test.testPxlScale(minPS, maxPS, nPS)
 
