@@ -15,7 +15,8 @@ import numpy
 def testZernPowSpec():
 
     noll = zernikepowspec.loadNoll(NZERNS)
-    zCoeffs = zernikepowspec.getZernCoeffs(NZERNS, NSCRNS, SCRNSIZE, SUBSCRNSIZE, R0)
+    zCoeffs = zernikepowspec.getZernCoeffs(
+            NZERNS, NSCRNS, SCRNSIZE, SUBSCRNSIZE, R0)
     zVar = zCoeffs.var(1)
 
     # Check zernikes from phase screen match noll matrix ignoring tip/tilt
