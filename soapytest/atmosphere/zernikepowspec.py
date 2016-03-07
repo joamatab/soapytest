@@ -13,7 +13,7 @@ FILEPATH = os.path.dirname(os.path.abspath(__file__))
 NZERNS = 50
 NSCRNS = 200
 SCRNSIZE = 1024
-SUBSCRNSIZE = 128
+SUBSCRNSIZE = 512
 R0 = 1.
 
 def getZernCoeffs(

@@ -12,9 +12,10 @@ import makeplots, transferToWeb
 def makeWeb():
     try:
         makeplots.makePlots()
+    except KeyboardInterrupt:
+        pass
     except:
         pass
-        
     transferToWeb.transfer()
 
 if __name__ == '__main__':

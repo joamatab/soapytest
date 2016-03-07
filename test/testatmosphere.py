@@ -7,7 +7,7 @@ from soapytest.atmosphere import zernikepowspec
 NZERNS = 50
 NSCRNS = 200
 SCRNSIZE = 1024
-SUBSCRNSIZE = 128
+SUBSCRNSIZE = 512
 R0 = 1.
 
 import numpy
