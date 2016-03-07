@@ -1,2 +1,1 @@
-import plotshwfs
-import plotatmos
+from . import plotshwfs, plotatmos

@@ -1,1 +1,1 @@
-import shpixelscale
+from . import shpixelscale
