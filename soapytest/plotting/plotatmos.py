@@ -28,18 +28,18 @@ def plotZernSpec():
     filename = os.path.join(SOAPYTEST_DIR, 'plots/atmoszernike.html')
     plotly.offline.plot(
             {   "data":[
-                    Scatter(x=X, y=zVar, name="Soapy Atmosphere"),
-                    Scatter(x=X, y=noll, name='Noll Theoretical',
-                            line={'dash':'dash'}),
-                    Scatter(x=X, y=zVar_SH, name="Soapy Atmosphere (Sub-harmonics)")],
+                    Scatter(x=X, y=zVar, name='Soapy atmosphere'),
+                    Scatter(x=X, y=zVar_SH, name='Soapy atmosphere with Sub-harmonics'),
+                    Scatter(x=X, y=noll, name='Noll theoretical',
+                            line={'dash':'dash', 'color':'black'})
+                            ],
                 "layout":Layout(
-                        title='Atmosphere Zernike Spectrum ($D/r^{0}=1$)',
-                        xaxis={'title': 'Zernike index'},
+                        xaxis={'title': 'Zernike Index'},
                         yaxis={ 'type':'log',
-                                'title':'Power ($rad^2$)'},
-                        legend={'x':0.8, 'y':1}
-
-                                )
+                                'title':'Power (rad^2)'
+                                },
+                        legend={'x':0.8, 'y':0.9}
+                        )
             },
             auto_open=False,
             filename=filename)

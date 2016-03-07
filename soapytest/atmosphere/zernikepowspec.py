@@ -13,7 +13,7 @@ FILEPATH = os.path.dirname(os.path.abspath(__file__))
 NZERNS = 50
 NSCRNS = 250
 SCRNSIZE = 2048
-SUBSCRNSIZE = 512
+SUBSCRNSIZE = 256
 R0 = 1.
 
 def getZernCoeffs(
@@ -31,7 +31,7 @@ def getZernCoeffs(
     i = 0
     for n in range(nScrns):
         if n%(NSCRNS/10)==0:
-            print("{}% complete".format(float(n)/NSCRNS))
+            print("{}% complete".format(100*float(n)/NSCRNS))
         # Make one big screen
         if subHarmonics:
             scrn = atmosphere.ft_sh_phase_screen(
