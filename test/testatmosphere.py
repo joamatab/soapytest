@@ -5,8 +5,8 @@ Continuous integration tests for the soapy atmosphere module
 from soapytest.atmosphere import zernikepowspec
 
 NZERNS = 50
-NSCRNS = 200
-SCRNSIZE = 1024
+NSCRNS = 250
+SCRNSIZE = 2048
 SUBSCRNSIZE = 512
 R0 = 1.
 

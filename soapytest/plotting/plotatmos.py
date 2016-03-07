@@ -33,10 +33,10 @@ def plotZernSpec():
                             line={'dash':'dash'}),
                     Scatter(x=X, y=zVar_SH, name="Soapy Atmosphere (Sub-harmonics)")],
                 "layout":Layout(
-                        title='Atmosphere Zernike Spectrum (D/r0=1)',
-                        xaxis={'name': 'Zernike index'},
+                        title='Atmosphere Zernike Spectrum ($D/r^{0}=1$)',
+                        xaxis={'title': 'Zernike index'},
                         yaxis={ 'type':'log',
-                                'name':'Power ($rad^2$)'},
+                                'title':'Power ($rad^2$)'},
                         legend={'x':0.8, 'y':1}
 
                                 )

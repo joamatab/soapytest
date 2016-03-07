@@ -2,9 +2,10 @@
 
 import os
 SCRIPTS_DIR = os.path.dirname(os.path.realpath(__file__))
-
+SOAPYTEST_DIR = os.path.join(SCRIPTS_DIR, '..')
 import sys
 sys.path.append(SCRIPTS_DIR)
+sys.path.append(SOAPYTEST_DIR)
 
 import makeplots, transferToWeb
 
@@ -15,6 +16,8 @@ def makeWeb():
     except KeyboardInterrupt:
         pass
     except:
+        import traceback
+        traceback.print_exc()
         pass
     transferToWeb.transfer()
 
