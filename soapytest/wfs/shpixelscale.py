@@ -2,7 +2,11 @@ import numpy
 
 from soapy import confParse, wfs, aoSimLib
 
-SOAPY_CONF = "conf/test_conf.py"
+import os
+SOAPYTEST_DIR = os.path.join(
+        os.path.dirname(os.path.realpath(__file__)), "../../")
+SOAPY_CONF = os.path.join(SOAPYTEST_DIR, "conf/test_conf.py")
+
 PXLS_PER_SUBAP = 30
 MIN_PIXELSCALE = 0.1
 MAX_PIXELSCALE = 0.3
