@@ -19,7 +19,7 @@ def plotSHPixelScale():
     plotly.offline.plot(
             {   "data":[
                     Scatter(x=ps, y=mps, name="Soapy Pixel Scale"),
-                    Scatter(x=ps, y=ps, name='Theoretical', line={'dash':'dash'})],
+                    Scatter(x=ps, y=ps, name='Theoretical', line={'dash':'dash', 'color':'black'})],
                 "layout":Layout(title='Pixel Scale')},
             auto_open=False,
             filename=filename)

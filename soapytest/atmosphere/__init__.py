@@ -1,1 +1,1 @@
-import zernikepowspec
+from . import zernikepowspec
