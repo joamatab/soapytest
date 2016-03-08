@@ -38,7 +38,7 @@ def plotZernSpec():
                         yaxis={ 'type':'log',
                                 'title':'Power (rad^2)'
                                 },
-                        legend={'x':0.8, 'y':0.9}
+                        legend={'x':0.6, 'y':0.9}
                         )
             },
             auto_open=False,

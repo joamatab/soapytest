@@ -20,7 +20,11 @@ def plotSHPixelScale():
             {   "data":[
                     Scatter(x=ps, y=mps, name="Soapy Pixel Scale"),
                     Scatter(x=ps, y=ps, name='Theoretical', line={'dash':'dash', 'color':'black'})],
-                "layout":Layout(title='Pixel Scale')},
+                "layout":Layout(
+                        title='Pixel Scale',
+                        legend={'x':0})
+
+            },
             auto_open=False,
             filename=filename)
 
