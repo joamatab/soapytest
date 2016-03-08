@@ -8,7 +8,7 @@ SOAPYTEST_DIR = os.path.join(
 PLOTS_DIR = os.path.join(SOAPYTEST_DIR, "plots/")
 
 def transfer():
-    plotfiles = os.listdir('plots')
+    plotfiles = os.listdir(PLOTS_DIR)
 
     for f in plotfiles:
         os.system('scp {}/{} d70j6c@mira.dur.ac.uk:~/public_html/soapytest/'.format(PLOTS_DIR, f))
