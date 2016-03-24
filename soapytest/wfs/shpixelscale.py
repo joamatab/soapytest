@@ -58,7 +58,8 @@ class SHPixelScale(object):
         self.config.wfss[0].subapFOV = (
                 self.config.wfss[0].pxlsPerSubap * pxlScale)
         self.wfs = wfs.ShackHartmann(
-                self.config, mask=self.mask)
+                self.config.sim, self.config.wfss[0], self.config.atmos, 
+                mask=self.mask)
 
     def getSlopeFromTilt(self, tiltAmp):
         """
