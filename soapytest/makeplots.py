@@ -2,12 +2,12 @@
 
 from soapytest import plotting
 
-def makePlots():
+def makePlots(outputdir=None):
     # Atmospehre Plots
-    plotting.plotatmos.plotZernSpec()
+    plotting.plotatmos.plotZernSpec(outputdir)
 
     # SH WFS plots
-    plotting.plotshwfs.plotSHPixelScale()
+    plotting.plotshwfs.plotSHPixelScale(outputdir)
 
 
 if __name__=='__main__':

@@ -12,7 +12,9 @@ from .. import atmosphere
 SOAPYTEST_DIR = os.path.join(
         os.path.dirname(os.path.realpath(__file__)), "../../")
 
-def plotZernSpec():
+def plotZernSpec(outputdir=None):
+    if outputdir is None:
+        outputdir = os.path.join(SOAPYTEST_DIR, "plots/")
     print("\nPLOT ATMOSPHERE ZERNIKE SPECTRUM\n***")
     noll = atmosphere.zernikepowspec.loadNoll()
     print("Test standard Soapy atmosphere")
@@ -25,7 +27,7 @@ def plotZernSpec():
 
     X = numpy.arange(1, len(zVar)+1)
 
-    filename = os.path.join(SOAPYTEST_DIR, 'plots/atmoszernike.html')
+    filename = os.path.join(outputdir, 'atmoszernike.html')
     plotly.offline.plot(
             {   "data":[
                     Scatter(x=X, y=zVar, name='Soapy atmosphere'),

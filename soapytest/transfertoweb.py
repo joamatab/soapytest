@@ -7,11 +7,15 @@ SOAPYTEST_DIR = os.path.join(
 
 PLOTS_DIR = os.path.join(SOAPYTEST_DIR, "plots/")
 
-def transfer():
-    plotfiles = os.listdir(PLOTS_DIR)
+def transfer(plotsdir=None):
+    if plotsdir==None:
+        plotsdir = PLOTS_DIR
+
+    plotfiles = os.listdir(plotsdir)
+
 
     for f in plotfiles:
-        os.system('scp {}/{} d70j6c@mira.dur.ac.uk:~/public_html/soapytest/'.format(PLOTS_DIR, f))
+        os.system('scp {}/{} d70j6c@mira.dur.ac.uk:~/public_html/soapytest/'.format(plotsdir, f))
 
 if __name__=="__main__":
     transfer()
