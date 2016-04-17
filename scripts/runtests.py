@@ -6,7 +6,7 @@ import shutil
 
 
 CONDA_PACKAGES = ['numpy', 'scipy', 'pip', 'astropy']
-PIP_PACKAGES = ['pyfftw']
+PIP_PACKAGES = ['pyfftw', 'plotly']
 SOAPY_VER = "v0.11.0"
 
 def git_install(name, url,  tag=None):

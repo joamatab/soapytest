@@ -1,6 +1,8 @@
 from soapytest import makeplots, transfertoweb
 import soapy
 import sys
+import os
+
 
 def runtests(soapybuild_path):
     # make plots
