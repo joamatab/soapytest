@@ -4,7 +4,7 @@ from soapytest import plotting
 
 def makePlots(outputdir=None):
     # Atmospehre Plots
-    #plotting.plotatmos.plotZernSpec(outputdir)
+    plotting.plotatmos.plotZernSpec(outputdir)
 
     # SH WFS plots
     plotting.plotshwfs.plotSHPixelScale(outputdir)
