@@ -8,9 +8,9 @@ def runtests(soapybuild_path):
     # make plots
     PLOT_DIR = os.path.join(soapybuild_path, 'plots/')
     os.makedirs(PLOT_DIR)
-    os.environ["PYTHONPATH"] = "{}:{}".format(os.path.join(soapybuild_path, 'soapytest/scripts'), os.environ["PYTHONPATH"])
+    #os.environ["PYTHONPATH"] = "{}:{}".format(os.path.join(soapybuild_path, 'soapytest/scripts'), os.environ["PYTHONPATH"])
 
-    print("Use Soapy Version:".format(soapy.__version__))
+    print("Use Soapy Version: {}".format(soapy.__version__))
     makeplots.makePlots(PLOT_DIR) 
     transfertoweb.transfer(PLOT_DIR)
 
