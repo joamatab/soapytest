@@ -14,8 +14,8 @@ RAD2ASEC = 206264.849159
 ASEC2RAD = 1./RAD2ASEC
 
 # How many phase screens to run the tests on
-N_SCRNS = 2
-N_R0s = 3
+N_SCRNS = 8
+N_R0s = 10
 R0s = numpy.linspace(0.05, 0.2, N_R0s)
 
 class SHSlopeVariance(object):
