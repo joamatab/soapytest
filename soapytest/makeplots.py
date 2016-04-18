@@ -8,7 +8,7 @@ def makePlots(outputdir=None):
 
     # SH WFS plots
     plotting.plotshwfs.plotSHPixelScale(outputdir)
-
+    plotting.plotshwfs.plotSHSlopeVariance(outputdir)
 
 if __name__=='__main__':
     makePlots()

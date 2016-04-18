@@ -1,1 +1,1 @@
-from . import shpixelscale
+from . import shpixelscale, shslopevariance
