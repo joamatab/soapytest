@@ -31,7 +31,7 @@ install:
   # Install Soapy
   - git clone https://github.com/andrewpaulreeves/soapy.git
   - cd soapy/
-  - git checkout v0.11.0
+  - git checkout master
   - python setup.py install
   - cd ..
 
