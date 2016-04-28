@@ -5,11 +5,12 @@ from soapy import confParse, wfs, aoSimLib
 import os
 SOAPYTEST_DIR = os.path.join(
         os.path.dirname(os.path.realpath(__file__)), "../../")
-SOAPY_CONF = os.path.join(SOAPYTEST_DIR, "conf/test_conf.py")
+SOAPY_CONF = os.path.join(SOAPYTEST_DIR, "conf/wfs/shpixelscale.py")
 
-PXLS_PER_SUBAP = 30
-MIN_PIXELSCALE = 0.1
-MAX_PIXELSCALE = 0.3
+
+MIN_PIXELSCALE = 0.02
+# This is just larger than the diffraction limit
+MAX_PIXELSCALE = 0.15
 
 
 class SHPixelScale(object):
@@ -32,8 +33,6 @@ class SHPixelScale(object):
         """
         self.config = confParse.Configurator(self.configfile)
         self.config.loadSimParams()
-
-        self.config.wfss[0].pxlsPerSubap = PXLS_PER_SUBAP
 
         self.mask = aoSimLib.circle(
                 self.config.sim.pupilSize/2., self.config.sim.simSize)
