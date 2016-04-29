@@ -5,7 +5,7 @@ from soapy import confParse, wfs, aoSimLib
 import os
 SOAPYTEST_DIR = os.path.join(
         os.path.dirname(os.path.realpath(__file__)), "../../")
-SOAPY_CONF = os.path.join(SOAPYTEST_DIR, "conf/wfs/shpixelscale.py")
+SOAPY_CONF = os.path.join(SOAPYTEST_DIR, "conf/wfs/shpixelscale.yaml")
 
 
 MIN_PIXELSCALE = 0.02
@@ -31,7 +31,7 @@ class SHPixelScale(object):
         """
         Load the Soapy config file
         """
-        self.config = confParse.Configurator(self.configfile)
+        self.config = confParse.YAML_Configurator(self.configfile)
         self.config.loadSimParams()
 
         self.mask = aoSimLib.circle(
