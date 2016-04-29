@@ -31,7 +31,7 @@ class SHPixelScale(object):
         """
         Load the Soapy config file
         """
-        self.config = confParse.Configurator(self.configfile)
+        self.config = confParse.YAML_Configurator(self.configfile)
         self.config.loadSimParams()
 
         self.mask = aoSimLib.circle(
