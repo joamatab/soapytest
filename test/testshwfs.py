@@ -6,8 +6,8 @@ import numpy
 
 from soapytest.wfs import shpixelscale
 
-MIN_PIXELSCALE = 0.1
-MAX_PIXELSCALE = 0.3
+MIN_PIXELSCALE = 0.05
+MAX_PIXELSCALE = 0.15
 
 def testPixelScale():
     pxlScales, measuredPxlScales = shpixelscale.testPixelScale(
