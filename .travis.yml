@@ -27,7 +27,7 @@ before_install:
 - conda update -q conda
 
 install:
-- conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION numpy scipy nose astropy
+- conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION numpy scipy nose astropy yaml
 - source activate test-environment
 - python setup.py install
 - pip install pyfftw
