@@ -3,51 +3,52 @@ sudo: false
 
 branches:
     only:
-        - master
+    - master
 
 python:
-  - 2.7
-  - 3.5
+- 2.7
+- 3.5
 
 addons:
   apt:
     packages:
-      - libfftw3-dev
+    - libfftw3-dev
 
 # Setup anaconda
 before_install:
-  - wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
-  - chmod +x miniconda.sh
-  - ./miniconda.sh -b
-  - export PATH=/home/travis/miniconda2/bin:$PATH
-  - ls
-  - conda update --yes conda
+- wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
+- chmod +x miniconda.sh
+- ./miniconda.sh -b
+- export PATH=/home/travis/miniconda2/bin:$PATH
+- ls
+- conda update --yes conda
 
 # Install packages
 install:
-  - conda install --yes python=$TRAVIS_PYTHON_VERSION numpy scipy nose astropy
-  - pip install pyfftw
+# - conda install --yes python=$TRAVIS_PYTHON_VERSION atlas numpy scipy nose astropy
+- conda install --yes python=$TRAVIS_PYTHON_VERSION numpy scipy nose astropy
+- pip install pyfftw
 
-  # Install aotools
-  - git clone https://github.com/soapy/aotools.git
-  - cd aotools
-  - git checkout master
-  - python setup.py install
-  - cd ..
+# Install aotools
+- git clone https://github.com/soapy/aotools.git
+- cd aotools
+- git checkout master
+- python setup.py install
+- cd ..
 
-  # Install Soapy
-  - git clone https://github.com/soapy/soapy.git
-  - cd soapy/
-  - git checkout master
-  - python setup.py install
-  - cd ..
+# Install Soapy
+- git clone https://github.com/soapy/soapy.git
+- cd soapy/
+- git checkout master
+- python setup.py install
+- cd ..
 
 # Use if anything needs to be done before tests are run
 # before_script:
 #     cd test
 
 script:
-    - nosetests --verbosity=3  test/
+- nosetests --verbosity=3  test/
 
 # Use if anything needs to be done after tests are passed
 # after_success:
