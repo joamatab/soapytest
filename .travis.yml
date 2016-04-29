@@ -4,6 +4,7 @@ sudo: false
 branches:
     only:
     - master
+    - yml-debug
 
 python:
 - 2.7
