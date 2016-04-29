@@ -1,21 +1,17 @@
-  # Install Soapylanguage: python
+language: python
 sudo: false
-
 branches:
-    only:
-    - master
-    - yml-debug
-
+  only:
+  - master
+  - numba
+  
 python:
 - 2.7
 - 3.5
-
 addons:
   apt:
     packages:
     - libfftw3-dev
-
-# Setup anaconda
 before_install:
 - wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
 - chmod +x miniconda.sh
@@ -23,33 +19,16 @@ before_install:
 - export PATH=/home/travis/miniconda2/bin:$PATH
 - ls
 - conda update --yes conda
-
-# Install packages
 install:
 - conda install --yes python=$TRAVIS_PYTHON_VERSION atlas numpy scipy nose astropy
-# - conda install --yes python=$TRAVIS_PYTHON_VERSION numpy scipy nose astropy
+  numba
+- python setup.py install
 - pip install pyfftw
-
-# Install aotools
-- git clone https://github.com/soapy/aotools.git
-- cd aotools
-- git checkout master
-- python setup.py install
-- cd ..
-
-# Install Soapy
-- git clone https://github.com/soapy/soapy.git
-- cd soapy/
-- git checkout master
-- python setup.py install
-- cd ..
-
-# Use if anything needs to be done before tests are run
-# before_script:
-#     cd test
-
+- pip install codecov
 script:
-- nosetests --verbosity=3  test/
-
-# Use if anything needs to be done after tests are passed
-# after_success:
+- nosetests --verbosity=3 --with-coverage --cover-package=soapy test/
+after_success:
+- codecov
+notifications:
+  slack:
+    secure: W2egnr70ShnIIhYi38CAOWaY8QMCkRB6T43UqqBjuHsoXiU9Sx92VNuFFwAoXjNhLn5T7zax1Q2sSwUP9WrYNC+jbjaZlGI3EY2j3/POCRd4wASZEkW1nD7TsITCVZxnTbBOU6nF69YhyTCx69R/tjbViYqbzcwMlEVb8CN7v6vtpS27eeaK9eUAmkcoXtxlQKdtMjyoPt/aq6ep/+KQPVPJSvk4de0/eq70HfHi1QKGq2aaWlgxsLO4XrVCf6WDadRIYrpfIHZE13+iyT0LNadYp+0+xLEcyy8NbcYwdMzQnDG43967qhDYauGxjKqn408Ocv4O0c2jUBqcPC+KcgRlYWTzqMpDBSiZ4smRX8Gw/jq+xWQHy43XWnbz+yRHjJ/5ztxg1KtUiFJEULbSi5Iusi7SRnnZ4u9OjGuS43qDn2Nw6espvoFrtD1zw95wPvvyN3CNalfdjC1Z04/v1O9/EA3VV7Ov6GjXPgTQu1zOhCv8mWyTOCzo+L2vhS8Y12jSOU3swnStfj9O0TKs/HQrzBoMFSLAyodiLNsRyajlYEJmEOtiyyNf/vaJLQp2yERQdkI+UqV2i8btpWkOPmKd/am8V38yTR08FRkBdS9BkQ8cBlncmPRwz7HrCxcTOw7rfOr2/OMNnZZH1xx0Li7IPFxY4cqWCR3VAH2vDmA=
