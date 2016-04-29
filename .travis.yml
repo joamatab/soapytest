@@ -47,5 +47,3 @@ install:
 - cd ..
 script:
 - nosetests --verbosity=3 test/
-after_success:
-- codecov
