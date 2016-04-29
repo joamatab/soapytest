@@ -35,7 +35,7 @@ if __name__=="__main__":
         shutil.rmtree(SOAPYTEST_BUILD_PATH)
     # And make a new one to start from scratch
     os.makedirs(SOAPYTEST_BUILD_PATH)
-    
+
     print("Install conda for: {}".format(sys.platform))
     MCONDA_PATH = os.path.join(SOAPYTEST_BUILD_PATH, "miniconda.sh")
     subprocess.call(["wget", CONDA_LINK, "-O", MCONDA_PATH])
@@ -45,7 +45,9 @@ if __name__=="__main__":
     print("PATH:{}".format(os.environ["PATH"]))
     subprocess.call(['conda', "update", "--yes", "conda"])
     subprocess.call(['conda', 'install', '--yes']+CONDA_PACKAGES)
-    subprocess.call(['pip', 'install']+PIP_PACKAGES)
+    # In a loop to make more robust in case of failure to install pyfftw
+    for package in PIP_PACKAGES:
+        subprocess.call(['pip', 'install', package])
 
     # Get soapy
     git_install(os.path.join(SOAPYTEST_BUILD_PATH,'soapy'), 'https://github.com/soapy/soapy.git', tag=SOAPY_VER)
