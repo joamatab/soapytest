@@ -1,5 +1,5 @@
 simName: Grad_Pixel_Variance
-pupilSize: 64
+pupilSize: 100
 nGS: 1
 
 nIters: 1000
@@ -33,3 +33,5 @@ WFS:
     nxSubaps: 10
     wavelength: 550e-9
     subapThreshold: 1
+    pxlsPerSubap: 10
+    subapFOV: 1
