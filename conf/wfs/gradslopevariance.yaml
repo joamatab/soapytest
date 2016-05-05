@@ -1,0 +1,37 @@
+simName: Grad_Pixel_Variance
+pupilSize: 64
+nGS: 1
+
+nIters: 1000
+loopTime: 0.0025
+
+verbosity: 2
+
+
+Atmosphere:
+  scrnNo: 1
+  scrnHeights: [0]
+  scrnStrengths: [1]
+  windDirs: [20]
+  windSpeeds: [50]
+  wholeScrnSize: 8192
+  # r0 will be changed
+  r0: 0.16 
+  subHarmonics: False
+  L0: [100]
+
+Telescope:
+  telDiam: 1.
+  obsDiam: 0
+  mask: circle
+
+WFS:
+  0:
+    type: Gradient
+    GSPosition: [0, 0]
+    GSHeight: 0
+    nxSubaps: 10
+    pxlsPerSubap: 10
+    subapFOV: 4.
+    wavelength: 550e-9
+    subapThreshold: 1
