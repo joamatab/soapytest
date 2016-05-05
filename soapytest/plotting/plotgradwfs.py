@@ -56,5 +56,5 @@ def plotGradSlopeVariance(outputdir=None):
 
 
 if __name__ == '__main__':
-    # plotGradPixelScale()
+    plotGradPixelScale()
     plotGradSlopeVariance()

@@ -9,6 +9,10 @@ def makePlots(outputdir=None):
     # SH WFS plots
     plotting.plotshwfs.plotSHPixelScale(outputdir)
     plotting.plotshwfs.plotSHSlopeVariance(outputdir)
+    
+    # Gradient wfs plots
+    plotting.plotgradwfs.plotGradPixelScale(outputdir)
+    plotting.plotgradwfs.plotGradSlopeVariance(outputdir)
 
 if __name__=='__main__':
     makePlots()

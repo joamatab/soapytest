@@ -1,1 +1,1 @@
-from . import plotshwfs, plotatmos
+from . import plotshwfs, plotatmos, plotgradwfs
