@@ -12,7 +12,7 @@ FILEPATH = os.path.dirname(os.path.abspath(__file__))
 
 NZERNS = 50
 NSCRNS = 500
-SCRNSIZE = 2048
+SCRNSIZE = 16364
 SUBSCRNSIZE = 512
 R0 = 1.
 
