@@ -21,7 +21,7 @@ Atmosphere:
   L0: [100]
 
 Telescope:
-  telDiam: 10.
+  telDiam: 1.
   obsDiam: 0
   mask: circle
 
@@ -30,8 +30,8 @@ WFS:
     type: ShackHartmann
     GSPosition: [0, 0]
     GSHeight: 0
-    nxSubaps: 10
-    pxlsPerSubap: 30
+    nxSubaps: 8
+    pxlsPerSubap: 10
     subapFOV: 4.
     wavelength: 550e-9
     subapThreshold: 1

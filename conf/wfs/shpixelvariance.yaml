@@ -14,7 +14,7 @@ Atmosphere:
   scrnStrengths: [1]
   windDirs: [20]
   windSpeeds: [50]
-  wholeScrnSize: 8192
+  wholeScrnSize: 4096
   # r0 will be changed
   r0: 0.16 
   subHarmonics: False
