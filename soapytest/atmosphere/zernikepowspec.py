@@ -3,6 +3,7 @@ import unittest
 
 from soapy import atmosphere
 from soapy import aoSimLib
+from aotools.phasescreen import infinitephasescreen
 
 from astropy.io import fits
 
@@ -15,6 +16,7 @@ NSCRNS = 500
 SCRNSIZE = 2**12
 SUBSCRNSIZE = 512
 R0 = 1.
+# Always make screens of size 1metre
 
 def getZernCoeffs(
         nZerns=NZERNS, nScrns=NSCRNS, scrnSize=SCRNSIZE,
@@ -57,6 +59,25 @@ def getZernCoeffs(
 
     return zCoeffs
 
+def getZernCoeffs_infinite(
+        nZerns=NZERNS, nScrns=NSCRNS, subScrnSize=SUBSCRNSIZE, r0=R0):
+
+    scrn = infinitephasescreen.PhaseScreen(subScrnSize, 10./subScrnSize, r0, L0=100, nCol=4)
+
+    Zs = aoSimLib.zernikeArray(nZerns+1, subScrnSize)
+    piston = Zs[0]
+    Zs = Zs[1:]
+    Zs.shape = nZerns, subScrnSize*subScrnSize
+
+    zCoeffs = numpy.zeros((nZerns, nScrns))
+    for i in range(nScrns):
+        scrn.addRow(subScrnSize)
+        
+        subScrn = scrn.scrn.copy().reshape(subScrnSize*subScrnSize)
+
+        zCoeffs[:, i] = (Zs*subScrn).sum(1)/piston.sum()
+
+    return zCoeffs
 
 def loadNoll(nZerns=NZERNS):
     """
