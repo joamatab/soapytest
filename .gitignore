@@ -67,3 +67,6 @@ target/
 .ipynb_checkpoints
 
 plots/*
+
+# visual studio code stuff
+.vscode
