@@ -7,16 +7,16 @@ from soapy import atmosphere
 from soapy import aoSimLib
 from aotools.phasescreen import infinitephasescreen
 
-
 FILEPATH = os.path.dirname(os.path.abspath(__file__))
 
-
-NZERNS = 50
-NSCRNS = 500
-SCRNSIZE = 2**12
-SUBSCRNSIZE = 512
+NSCRNS = 50
+SCRNSIZE = 2**10
+SUBSCRNSIZE = 128
+D = 1.
 R0 = 1.
+R0_RANGE = numpy.array([0.05, 0.1, 0.15, 0.2, 0.5])
 # Always make screens of size 1metre
+
 
 def testPhaseVariance(
         nScrns=NSCRNS, scrnSize=SCRNSIZE,
@@ -32,10 +32,10 @@ def testPhaseVariance(
         # Make one big screen
         if subHarmonics:
             scrn = atmosphere.ft_sh_phase_screen(
-                    r0, scrnSize, 1./subScrnSize, 100., 0.01)
+                    r0, scrnSize, D/subScrnSize, 100., 0.01)
         else:
             scrn = atmosphere.ft_phase_screen(
-                    r0, scrnSize, 1./subScrnSize, 100., 0.01)
+                    r0, scrnSize, D/subScrnSize, 100., 0.01)
 
         # Pick out as many sub-scrns as possible to actually test
         for x in range(subsPerScrn):
@@ -48,7 +48,33 @@ def testPhaseVariance(
 
     return phase_var
 
-def testPhaseVar_vs_r0(r0_range, nScrns=NSCRNS, scrnSize=SCRNSIZE,
+def testSingleScrnVariance(args):
+    scrnSize, subScrnSize, r0, subHarmonics = args
+
+    # Make one big screen
+    if subHarmonics:
+        scrn = atmosphere.ft_sh_phase_screen(
+                r0, scrnSize, D/subScrnSize, 100., 0.01)
+    else:
+        scrn = atmosphere.ft_phase_screen(
+                r0, scrnSize, D/subScrnSize, 100., 0.01)
+
+
+    subsPerScrn = int(scrnSize/subScrnSize)
+    phase_var = numpy.zeros(subsPerScrn**2)
+    # Pick out as many sub-scrns as possible to actually test
+    i = 0
+    for x in range(subsPerScrn):
+        for y in range(subsPerScrn):
+            subScrn = scrn[
+                    x*subScrnSize: (x+1)*subScrnSize,
+                    y*subScrnSize: (y+1)*subScrnSize]
+            phase_var[i] = subScrn.var()
+            i+=1
+    return phase_var
+
+
+def testPhaseVar_vs_r0(r0_range=R0_RANGE, nScrns=NSCRNS, scrnSize=SCRNSIZE,
         subScrnSize=SUBSCRNSIZE, subHarmonics=False):
 
     phase_vars = numpy.zeros((len(r0_range), 2))
@@ -64,11 +90,11 @@ def plot_phaseVar(r0_range, nScrns=NSCRNS, scrnSize=SCRNSIZE, subScrnSize=SUBSCR
     r0_range = numpy.array(r0_range)
     
     pvs = testPhaseVar_vs_r0(r0_range, nScrns, scrnSize, subScrnSize)
-    pvs_sh = testPhaseVar_vs_r0(r0_range, nScrns, scrnSize, subScrnSize, subHarmonics=True)
+    # pvs_sh = testPhaseVar_vs_r0(r0_range, nScrns, scrnSize, subScrnSize, subHarmonics=True)
 
     fig = pyplot.figure()
     pyplot.errorbar(r0_range, pvs[:, 0], yerr=pvs[:, 1], label="FT phase screen")
-    pyplot.errorbar(r0_range, pvs_sh[:, 1], yerr=pvs_sh[:, 1], label="FT S-H phase screen")
+    # pyplot.errorbar(r0_range, pvs_sh[:, 1], yerr=pvs_sh[:, 1], label="FT S-H phase screen")
 
     pyplot.plot(r0_range, 1.03 * (1./r0_range)**(5./3))
 
@@ -78,7 +104,7 @@ def plot_phaseVar(r0_range, nScrns=NSCRNS, scrnSize=SCRNSIZE, subScrnSize=SUBSCR
     pyplot.ylabel("Variance ()")
     pyplot.show()
 
-
+    return pvs
 
 if __name__=="__main__":
 
