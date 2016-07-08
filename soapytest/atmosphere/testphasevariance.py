@@ -9,8 +9,8 @@ from aotools.phasescreen import infinitephasescreen
 
 FILEPATH = os.path.dirname(os.path.abspath(__file__))
 
-NSCRNS = 50
-SCRNSIZE = 2**10
+NSCRNS = 100
+SCRNSIZE = 2**12
 SUBSCRNSIZE = 128
 D = 1.
 R0 = 1.
