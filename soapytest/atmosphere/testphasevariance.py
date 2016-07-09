@@ -1,7 +1,6 @@
+import os
 import numpy
 from matplotlib import pyplot
-import os
-from astropy.io import fits
 
 from soapy import atmosphere
 from soapy import aoSimLib
