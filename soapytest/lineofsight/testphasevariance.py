@@ -39,13 +39,12 @@ class TestPhaseVariance(object):
 
         phase_variance = numpy.zeros((self.config.sim.nIters))
         for i in range(self.config.sim.nIters):
-            print('run test')
             scrns = self.atmos.moveScrns()
 
             phase = self.los.frame(scrns)
 
-            # Convert phase from nm to rad
-            phase *= 1e-9 * 2 * numpy.pi / self.config.scis[0].wavelength
+            # Convert phase from rad @ sci wvl to rad @ 500nm
+            phase *= self.config.scis[0].wavelength/500e-9
 
 
             phase_variance[i] = phase.var()
