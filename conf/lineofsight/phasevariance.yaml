@@ -2,7 +2,7 @@ simName: SH_Pixel_Variance
 pupilSize: 64
 nSci: 1
 
-nIters: 100
+nIters: 1000
 loopTime: 1.
 
 verbosity: 2
