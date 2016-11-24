@@ -23,8 +23,6 @@ def plotPhaseVariance(outputdir=None):
     theo = 1.03 * (1./xData)**(5./3)
     
 
-
-
     filename = os.path.join(outputdir, 'losphasevariance.html')
     plotly.offline.plot(
             {   "data":[
@@ -73,8 +71,6 @@ def plotPhaseVariance_vs_scrnSize(outputdir=None):
             },
             auto_open=False,
             filename=filename)
-
-
 
 
 if __name__ == '__main__':
