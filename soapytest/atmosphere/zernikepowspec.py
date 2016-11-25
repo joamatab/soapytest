@@ -1,20 +1,25 @@
+import os
+
 import numpy
-import unittest
+import plotly
+from plotly.graph_objs import Scatter, Layout
+from astropy.io import fits
+from matplotlib import pyplot
 
 from soapy import atmosphere
-from soapy import aoSimLib
-from aotools.phasescreen import infinitephasescreen
+# from soapy import aoSimLib
 
-from astropy.io import fits
+from aotools.turbulence import infinitephasescreen
+from aotools import circle, turbulence
 
-import os
+
 FILEPATH = os.path.dirname(os.path.abspath(__file__))
 
 
 NZERNS = 50
-NSCRNS = 500
-SCRNSIZE = 2**12
-SUBSCRNSIZE = 512
+NSCRNS = 10
+SCRNSIZE = 2**10
+SUBSCRNSIZE = 64
 R0 = 1.
 # Always make screens of size 1metre
 
@@ -22,7 +27,7 @@ def getZernCoeffs(
         nZerns=NZERNS, nScrns=NSCRNS, scrnSize=SCRNSIZE,
         subScrnSize=SUBSCRNSIZE, r0=R0, subHarmonics=False):
 
-    Zs = aoSimLib.zernikeArray(nZerns+1, subScrnSize)
+    Zs = circle.zernikeArray(nZerns+1, subScrnSize)
     piston = Zs[0]
     Zs = Zs[1:]
     Zs.shape = nZerns, subScrnSize*subScrnSize
@@ -36,10 +41,10 @@ def getZernCoeffs(
             print("{}% complete".format(100*float(n)/NSCRNS))
         # Make one big screen
         if subHarmonics:
-            scrn = atmosphere.ft_sh_phase_screen(
+            scrn = turbulence.ft_sh_phase_screen(
                     r0, scrnSize, 1./subScrnSize, 100., 0.01)
         else:
-            scrn = atmosphere.ft_phase_screen(
+            scrn = turbulence.ft_phase_screen(
                     r0, scrnSize, 1./subScrnSize, 100., 0.01)
 
         # Pick out as many sub-scrns as possible to actually test
@@ -64,15 +69,17 @@ def getZernCoeffs_infinite(
 
     scrn = infinitephasescreen.PhaseScreen(subScrnSize, 10./subScrnSize, r0, L0=100, nCol=4)
 
-    Zs = aoSimLib.zernikeArray(nZerns+1, subScrnSize)
+    Zs = circle.zernikeArray(nZerns+1, subScrnSize)
     piston = Zs[0]
     Zs = Zs[1:]
     Zs.shape = nZerns, subScrnSize*subScrnSize
 
     zCoeffs = numpy.zeros((nZerns, nScrns))
     for i in range(nScrns):
+        if i % (nScrns / 10) == 0:
+            print("{}% complete".format(100 * float(i) / nScrns))
         scrn.addRow(subScrnSize)
-        
+
         subScrn = scrn.scrn.copy().reshape(subScrnSize*subScrnSize)
 
         zCoeffs[:, i] = (Zs*subScrn).sum(1)/piston.sum()
@@ -89,31 +96,78 @@ def loadNoll(nZerns=NZERNS):
     return noll.diagonal()[:nZerns]
 
 
-def plotZernSpec(zVar, noll, filename=None, show=False):
+def plotZernSpec_mpl(zvar, noll, filename=None, show=False):
 
-    plt.figure()
-    plt.semilogy(zVar, label="Phase Screens")
-    plt.semilogy(noll, label="Noll reference")
+    pyplot.figure()
 
-    plt.xlabel("Zernike mode index")
-    plt.ylabel("Power ($rad^2$)")
+    pyplot.semilogy(noll, label="Noll reference", color="k", linestyle="--")
 
-    plt.legend(loc=0)
+    for label, var in zvar.items():
+        pyplot.semilogy(var, label=label)
+
+    pyplot.xlabel("Zernike mode index")
+    pyplot.ylabel("Power ($rad^2$)")
+
+    pyplot.legend(loc=0)
 
     if filename!=None:
-        plt.savefig(filename)
+        pyplot.savefig(filename)
     if show:
-        plt.show()
+        pyplot.show()
+
+
+def plotZernSpec(zvar, noll, outputdir='plots'):
+
+    X = numpy.arange(1, len(noll)+1)
+
+    filename = os.path.join(outputdir, 'atmoszernike.html')
+    plots = [Scatter(x=X, y=var, name=label) for (label, var) in zvar.items()]
+    plots.append(Scatter(x=X, y=noll, name='Noll theoretical',
+                            line={'dash':'dash', 'color':'black'}))
+    print(plots)
+    plotly.offline.plot(
+            {   "data": plots,
+                "layout": Layout(
+                        xaxis={'title': 'Zernike Index'},
+                        yaxis={ 'type':'log',
+                                'title':'Power (rad^2)'
+                                },
+                        legend={'x':0.6, 'y':0.9}
+                        )
+            },
+            auto_open=False,
+            filename=filename)
+
+def run_test(no_sh=True, sh=True, infinite=True, plotmpl=False, plotplotly=True):
+
+    print("\nPLOT ATMOSPHERE ZERNIKE SPECTRUM\n***")
+    noll = loadNoll(NZERNS)
+
+    zCoeffs = {}
+    if no_sh:
+        print("Test standard Soapy atmosphere")
+        zCoeffs["AOtools Phase Screens"] = getZernCoeffs()
+
+    if sh:
+        print("Test Sub-harmonics Soapy atmosphere")
+        zCoeffs["AOtools Phase Screens + Subharmonics"] = getZernCoeffs(subHarmonics=True)
+
+    if infinite:
+        print("Test infinite Phase screens")
+        zCoeffs["AOtools Infinite Phase Screens"] = getZernCoeffs_infinite()
+
+    zvar = {key: value.var(1) for (key, value) in zCoeffs.items()}
+
+    if plotmpl:
+        print("Show matplotlib plot")
+        plotZernSpec_mpl(zvar, noll, show=True)
+
+    if plotplotly:
+        print("Create plotly plot")
+        plotZernSpec(zvar, noll, os.path.join(FILEPATH, '../../plots/'))
+
+
 
 if __name__=="__main__":
 
-    # Number of scrns to average over
-    nScrns = 200
-    r0 = 1. # R0 value to use in test
-    nZerns = 50
-    subScrnSize = 256
-    scrnSize = 512
-
-
-    zVar, noll = testZernSpec()
-    plotZernSpec(zVar, noll, "zernikeVariance.pdf")
+    run_test(plotmpl=True, infinite=True)

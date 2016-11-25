@@ -70,3 +70,4 @@ plots/*
 
 # visual studio code stuff
 .vscode
+.idea/
