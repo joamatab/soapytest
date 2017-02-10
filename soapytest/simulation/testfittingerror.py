@@ -27,7 +27,7 @@ class TestFittingError(soapy.Sim):
         self.makeIMat(forceNew=True)
         self.aoloop()
 
-    
+        return self.longStrehl[0, -1]
 
     def run_all_nSubaps(self, subap_range=None, runs=None):
         
@@ -42,3 +42,9 @@ class TestFittingError(soapy.Sim):
         for i, s in enumerate(subap_range):
             self.test_nSubaps(s)
         
+
+
+def run_test():
+    test = TestFittingError()
+
+    test.run_all_nSubaps(N_SUBAPS, RUNS)
