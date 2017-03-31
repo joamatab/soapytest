@@ -35,3 +35,10 @@ WFS:
     subapFOV: 4.
     wavelength: 550e-9
     subapThreshold: 1
+    fftOversamp: 6
+
+
+Reconstructor:
+    type: MVM
+    svdConditioning: 0.03
+    gain: 0.6

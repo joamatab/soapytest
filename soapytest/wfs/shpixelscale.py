@@ -1,6 +1,7 @@
 import numpy
 
-from soapy import confParse, wfs, aoSimLib
+from soapy import confParse, wfs
+import aotools
 
 import os
 SOAPYTEST_DIR = os.path.join(
@@ -34,7 +35,7 @@ class SHPixelScale(object):
         self.config = confParse.YAML_Configurator(self.configfile)
         self.config.loadSimParams()
 
-        self.mask = aoSimLib.circle(
+        self.mask = aotools.circle(
                 self.config.sim.pupilSize/2., self.config.sim.simSize)
 
     def makeTilt(self):
