@@ -1,60 +1,65 @@
-simName: "FittingError"
-pupilSize: 128
+simName:
+pupilSize: 100
 nGS: 1
 nDM: 1
 nSci: 1
-nIters: 1000
+nIters: 5000
 loopTime: 0.0025
-reconstructor: "MVM"
+threads: 4
 
 verbosity: 2
 
 saveCMat: False
-saveSlopes: False
+saveSlopes: True
 saveDmCommands:   False
 saveLgsPsf: False
-saveSciPsf: False
+saveSciPsf: True
+saveWfe: True
+
 
 Atmosphere:
   scrnNo: 1
   scrnHeights: [0]
   scrnStrengths: [1]
-  windDirs: [20]
-  windSpeeds: [1]
+  windDirs: [0]
+  windSpeeds: [5]
   wholeScrnSize: 2048
-  r0: 0.166
+  r0: 0.20
+  L0: [100]
+  infinite: True
 
 
 Telescope:
-  telDiam: 7.9
-  obsDiam: 0.8875
+  telDiam: 8.
+  obsDiam: 0
   mask: circle
 
 WFS:
   0:
-    type: ShackHartmann
+    type: ShackHartmannFast
     GSPosition: [0, 0]
     GSHeight: 0
     GSMag: 0
     nxSubaps: 6
     pxlsPerSubap: 10
-    subapFOV: 2.
-    wavelength: 650e-9
-    subapThreshold: 0.8
+    subapFOV: 2.5
+    wavelength: 500e-9
 
 DM:
   0:
-    type: Piezo
+    type: GaussStack
     closed: True
     nxActuators: 7
-    svdConditioning: 0.05
-    gain: 0.7
-    iMatValue: 500
 
+Reconstructor:
+  type: MVM
+  svdConditioning: 0.03
+  gain: 0.6
 
 Science:
   0:
     position: [0, 0]
-    FOV: 1.5
-    wavelength: 1.65e-6
-    pxls: 128
+    FOV: 1.0
+    wavelength: 500e-9
+    pxls: 64
+

@@ -1,4 +1,4 @@
-simName: SH_Pixel_Variance
+simName: None
 pupilSize: 64
 nGS: 1
 
@@ -35,3 +35,8 @@ WFS:
     subapFOV: 4.
     wavelength: 550e-9
     subapThreshold: 1
+
+Reconstructor:
+    type: MVM
+    svdConditioning: 0.03
+    gain: 0.6
