@@ -55,7 +55,7 @@ def zernNumToDegFreq(num):
       n=n+1  
 
 def anyZernike(znum, gridSize, outerRadius=None, ratio=1, ongrid=1, clip=1, verbose=0):
-  if outerRadius == None: outerRadius = (gridSize-1.0)/2.0+1.0e-10
+  if outerRadius is None: outerRadius = (gridSize-1.0)/2.0+1.0e-10
   baseRadius = radius(gridSize, gridSize, ratio, ongrid)/outerRadius+0.0 # need double precision
   zern=baseRadius*0.0
 
@@ -83,34 +83,30 @@ def anyZernike(znum, gridSize, outerRadius=None, ratio=1, ongrid=1, clip=1, verb
 
   if m==0:
     zern=zern*numpy.sqrt(n+1)
+  elif odd:
+    zern=zern*etom.imag*numpy.sqrt(2*n+2)
   else:
-    if odd:
-      zern=zern*etom.imag*numpy.sqrt(2*n+2)
-    else:
-      zern=zern*etom.real*numpy.sqrt(2*n+2)
-  if clip: 
-     return(zern*numpy.less_equal(baseRadius, 1.0))
-  else:
-     return(zern)
+    zern=zern*etom.real*numpy.sqrt(2*n+2)
+  return (zern*numpy.less_equal(baseRadius, 1.0)) if clip else zern
 
 def radius(xSize, ySize, ratio=1, ongrid=1, offset=None):
-    '''Calculate the radius from the centre of a rectangular grid
+  '''Calculate the radius from the centre of a rectangular grid
       ongrid=1 = the coordinates are relative to pixel edges
       ongrdi=0 = the coordinates are relative to pixel centres'''
-    if offset == None:
-       rx = numpy.arange(xSize) - (xSize-ongrid*1.0)/2.0 
-       ry = numpy.arange(ySize) - (ySize-ongrid*1.0)/2.0
-    elif len(offset)>1:
-       rx = numpy.arange(xSize) - (xSize-ongrid*1.0)/2.0 - offset[0]
-       ry = numpy.arange(ySize) - (ySize-ongrid*1.0)/2.0 - offset[1]
-    else:
-       rx = numpy.arange(xSize) - (xSize-ongrid*1.0)/2.0 - offset
-       ry = numpy.arange(ySize) - (ySize-ongrid*1.0)/2.0 - offset
-    ry *= ratio # scale
-    rxSquared = rx*rx
-    rySquared = ry*ry
-    rSquared = numpy.add.outer(rySquared,rxSquared)
-    return(numpy.sqrt(rSquared))
+  if offset is None:
+    rx = numpy.arange(xSize) - (xSize-ongrid*1.0)/2.0 
+    ry = numpy.arange(ySize) - (ySize-ongrid*1.0)/2.0
+  elif len(offset)>1:
+     rx = numpy.arange(xSize) - (xSize-ongrid*1.0)/2.0 - offset[0]
+     ry = numpy.arange(ySize) - (ySize-ongrid*1.0)/2.0 - offset[1]
+  else:
+    rx = numpy.arange(xSize) - (xSize-ongrid*1.0)/2.0 - offset
+    ry = numpy.arange(ySize) - (ySize-ongrid*1.0)/2.0 - offset
+  ry *= ratio # scale
+  rxSquared = rx*rx
+  rySquared = ry*ry
+  rSquared = numpy.add.outer(rySquared,rxSquared)
+  return(numpy.sqrt(rSquared))
 
 def radius_coordIndep(coords):
     '''Calculate the radius from a set of coordinates'''
@@ -119,38 +115,35 @@ def radius_coordIndep(coords):
     return(numpy.sqrt(rxSquared**2+rySquared**2))
 
 def angle(xSize, ySize, ongrid=1, offset=None):
-    '''Calculate the angle from centre of grid -> row=x, column=y
+  '''Calculate the angle from centre of grid -> row=x, column=y
       and define 0/2pi as along (xSize/2,<any>)'''
-    if offset == None:
-       rx = numpy.arange(xSize) - (xSize-ongrid*1.0)/2.0 
-       ry = numpy.reshape( arange(ySize) - (ySize-ongrid*1.0)/2.0 , (-1,1) )
-    elif len(offset)>1:
-       rx = numpy.arange(xSize) - (xSize-ongrid*1.0)/2.0 -offset[0]
-       ry = numpy.reshape( arange(ySize) - (ySize-ongrid*1.0)/2.0 , (-1,1) ) -offset[1]
-    else:
-       rx = numpy.arange(xSize) - (xSize-ongrid*1.0)/2.0 -offset
-       ry = numpy.reshape( arange(ySize) - (ySize-ongrid*1.0)/2.0 , (-1,1) ) -offset
-    angle = numpy.arctan2(rx, ry)+numpy.pi # +pi so 0 le angle le 2pi
+  if offset is None:
+    rx = numpy.arange(xSize) - (xSize-ongrid*1.0)/2.0 
+    ry = numpy.reshape( arange(ySize) - (ySize-ongrid*1.0)/2.0 , (-1,1) )
+  elif len(offset)>1:
+     rx = numpy.arange(xSize) - (xSize-ongrid*1.0)/2.0 -offset[0]
+     ry = numpy.reshape( arange(ySize) - (ySize-ongrid*1.0)/2.0 , (-1,1) ) -offset[1]
+  else:
+    rx = numpy.arange(xSize) - (xSize-ongrid*1.0)/2.0 -offset
+    ry = numpy.reshape( arange(ySize) - (ySize-ongrid*1.0)/2.0 , (-1,1) ) -offset
 #    if (ySize-ongrid*1.)/2. % 1:
 #      angle = where( rx == 0 and ry > 0
-    return(angle)
+  return numpy.arctan2(rx, ry)+numpy.pi
 
 def expTheta(xSize, ySize, ongrid, ratio=1):
-    '''Return a rectangular grid containing exp(i*theta), where theta is 
+  '''Return a rectangular grid containing exp(i*theta), where theta is 
        the angle between the positive x axis and the vector from the centre
        of the grid to each gridpoint'''
-    rx = numpy.arange(xSize) - (xSize-1.0*ongrid)/2.0 
-    ry = numpy.arange(ySize) - (ySize-1.0*ongrid)/2.0
-    cosPart = rx
-    sinPart = numpy.reshape(1j*ry, (-1,1))
-    self = (cosPart + sinPart)/(1.0e-10 + radius(xSize, ySize, ratio, ongrid))
-    return(self)
+  rx = numpy.arange(xSize) - (xSize-1.0*ongrid)/2.0
+  ry = numpy.arange(ySize) - (ySize-1.0*ongrid)/2.0
+  cosPart = rx
+  sinPart = numpy.reshape(1j*ry, (-1,1))
+  return (cosPart + sinPart)/(1.0e-10 + radius(xSize, ySize, ratio, ongrid))
 
 def expTheta_coordIndep(coords):
-    '''Return a set of coordinates containing exp(i*theta), where theta is 
+  '''Return a set of coordinates containing exp(i*theta), where theta is 
        the angle between the positive x axis and the vector from the centre
        of the grid to each gridpoint'''
-    cosPart = coords[:,0]
-    sinPart = 1j*coords[:,1]
-    self = (cosPart + sinPart)/(1.0e-10 + radius_coordIndep(coords))
-    return(self)
+  cosPart = coords[:,0]
+  sinPart = 1j*coords[:,1]
+  return (cosPart + sinPart)/(1.0e-10 + radius_coordIndep(coords))

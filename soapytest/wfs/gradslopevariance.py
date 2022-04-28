@@ -61,7 +61,7 @@ class SHSlopeVariance(object):
         slopes = numpy.zeros((N_R0s, N_SCRNS * self.nIters, 2, self.wfs.activeSubaps))
 
         for ir0, r0 in enumerate(R0s):
-            print("Test R0: {}".format(r0))
+            print(f"Test R0: {r0}")
             self.config.atmos.r0 = r0
             slopes[ir0] = self.run_scrns()
 

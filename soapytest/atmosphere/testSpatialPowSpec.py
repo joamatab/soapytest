@@ -37,11 +37,11 @@ def theoPowerSpec(cn2, freqs, L0=None, l0=None):
 
 
     # if no l0 or L0, assume kolmogorov
-    if L0==None and l0==None:
+    if L0 is None and l0 is None:
         powSpec = 0.033 * cn2 * freqs**(-11./3)
 
     # Assumume Von Karman
-    if L0!=None and l0==None:
+    if L0 != None and l0 is None:
         k0 = 2*numpy.pi/L0
         powSpec = 0.033 * cn2 * (freqs**2 + k0**2)**(-11./6)
 

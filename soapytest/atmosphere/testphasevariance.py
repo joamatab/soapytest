@@ -27,7 +27,7 @@ def testPhaseVariance(
     i = 0
     for n in range(nScrns):
         if n%(nScrns/10)==0:
-            print("{}% complete".format(100*float(n)/nScrns))
+            print(f"{100*float(n) / nScrns}% complete")
         # Make one big screen
         if subHarmonics:
             scrn = atmosphere.ft_sh_phase_screen(

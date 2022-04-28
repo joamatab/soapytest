@@ -73,9 +73,7 @@ class SHPixelScale(object):
 
         aTilt = self.tilt.copy()*tiltAmp
         slopes = self.wfs.frame(aTilt)
-        measuredTilt = -1*slopes[self.wfs.activeSubaps:].mean()
-
-        return measuredTilt
+        return -1*slopes[self.wfs.activeSubaps:].mean()
 
 
     def runTilts(self):
@@ -113,10 +111,10 @@ class SHPixelScale(object):
         """
 
         pxlScales = numpy.linspace(minPS, maxPS, nPS)
-        print("Test pixel scales: {}".format(pxlScales))
+        print(f"Test pixel scales: {pxlScales}")
         measuredPxlScales = numpy.zeros_like(pxlScales)
         for ips, ps in enumerate(pxlScales):
-            print("test pixel scale:{}".format(ps))
+            print(f"test pixel scale:{ps}")
             measuredPxlScales[ips] = self.measurePxlScale(ps)[0]
 
         return pxlScales, measuredPxlScales
@@ -132,10 +130,7 @@ class SHPixelScale(object):
 
     @property
     def maxtilt(self):
-        if self._maxtilt is not None:
-            return self._maxtilt
-        else:
-            return 4*self.pxlScale
+        return self._maxtilt if self._maxtilt is not None else 4*self.pxlScale
 
     @maxtilt.setter
     def maxtilt(self, maxtilt):

@@ -68,9 +68,7 @@ class GradPixelScale(object):
 
         aTilt = self.tilt.copy()*tiltAmp
         slopes = self.wfs.frame(aTilt)
-        measuredTilt = -1*slopes[:self.wfs.activeSubaps].mean()
-
-        return measuredTilt
+        return -1*slopes[:self.wfs.activeSubaps].mean()
 
 
     def runTilts(self):
@@ -85,18 +83,15 @@ class GradPixelScale(object):
 
         self.measuredTilts = numpy.zeros((tiltAmps.shape[0]))
         for iA, A in enumerate(tiltAmps):
-            print("tiltAmp: {}nm".format(A))
+            print(f"tiltAmp: {A}nm")
             self.measuredTilts[iA] = self.getSlopeFromTilt(A)
-            
+
         return self.tilts_asec, self.measuredTilts
 
 
     @property
     def maxtilt(self):
-        if self._maxtilt is not None:
-            return self._maxtilt
-        else:
-            return 4*self.pxlScale
+        return self._maxtilt if self._maxtilt is not None else 4*self.pxlScale
 
     @maxtilt.setter
     def maxtilt(self, maxtilt):

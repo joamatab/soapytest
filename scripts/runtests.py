@@ -36,13 +36,13 @@ if __name__=="__main__":
     # And make a new one to start from scratch
     os.makedirs(SOAPYTEST_BUILD_PATH)
 
-    print("Install conda for: {}".format(sys.platform))
+    print(f"Install conda for: {sys.platform}")
     MCONDA_PATH = os.path.join(SOAPYTEST_BUILD_PATH, "miniconda.sh")
     subprocess.call(["wget", CONDA_LINK, "-O", MCONDA_PATH])
     subprocess.call(["chmod", "+x", MCONDA_PATH])
-    subprocess.call([MCONDA_PATH, "-b", "-p", "{}/miniconda".format(SOAPYTEST_BUILD_PATH)])
+    subprocess.call([MCONDA_PATH, "-b", "-p", f"{SOAPYTEST_BUILD_PATH}/miniconda"])
     os.environ["PATH"] = "{0}/miniconda/bin:{1}".format(SOAPYTEST_BUILD_PATH, os.environ["PATH"])
-    print("PATH:{}".format(os.environ["PATH"]))
+    print(f'PATH:{os.environ["PATH"]}')
     subprocess.call(['conda', "update", "--yes", "conda"])
     subprocess.call(['conda', 'install', '--yes']+CONDA_PACKAGES)
     # In a loop to make more robust in case of failure to install pyfftw
