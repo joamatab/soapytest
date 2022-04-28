@@ -39,7 +39,7 @@ class TestFittingError(soapy.Sim):
         wfe_data = numpy.zeros((len(subap_range), runs))
         strehl_data = numpy.zeros((len(subap_range), runs))
 
-        for i, s in enumerate(subap_range):
+        for s in subap_range:
             self.test_nSubaps(s)
         
 

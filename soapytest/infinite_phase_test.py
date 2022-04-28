@@ -33,7 +33,7 @@ def test_zerns():
     pyplot.figure()
     pyplot.semilogy(z_vars)
 
-    pyplot.savefig("infps_N-{}_nz-{}.png".format(nx_size, n_zerns))
+    pyplot.savefig(f"infps_N-{nx_size}_nz-{n_zerns}.png")
     pyplot.show()
 
 def test_temporal_ps():
@@ -65,7 +65,7 @@ def test_temporal_ps():
 
     pyplot.figure()
     pyplot.loglog(power_spectrum)
-    pyplot.savefig("tps_N-{}.png".format(nx_size))
+    pyplot.savefig(f"tps_N-{nx_size}.png")
     pyplot.show()
 
 

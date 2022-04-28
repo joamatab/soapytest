@@ -94,7 +94,7 @@ class TestPhaseVariance(object):
         phase_variance = numpy.zeros((2, len(size_range), len(r0_range)))
 
         for i, s in enumerate(size_range):
-            print("Test scrn size: {}".format(s))
+            print(f"Test scrn size: {s}")
             self.initAtmos(s)
             phase_variance[:, i] = self.testR0Range(r0_range)
 
@@ -103,15 +103,11 @@ class TestPhaseVariance(object):
 
 def testPhaseVariance_r0():
     test = TestPhaseVariance()
-    phase_variance = test.testR0Range(R0_RANGE)
-    
-    return phase_variance
+    return test.testR0Range(R0_RANGE)
 
 def testPhaseVariance_scrnSize():
     test = TestPhaseVariance()
-    phase_variance = test.testScrnSize(SCRN_SIZES, R0_RANGE)
-    
-    return phase_variance
+    return test.testScrnSize(SCRN_SIZES, R0_RANGE)
 
 if __name__ == "__main__":
     phase_variance = testPhaseVariance()

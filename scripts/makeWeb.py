@@ -16,10 +16,6 @@ def makeWeb():
         makeplots.makePlots()
     except KeyboardInterrupt:
         pass
-    except:
-        import traceback
-        traceback.print_exc()
-        pass
     transferToWeb.transfer()
 
 if __name__ == '__main__':

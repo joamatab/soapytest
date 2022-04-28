@@ -38,7 +38,7 @@ def getZernCoeffs(
     i = 0
     for n in range(nScrns):
         if n%(NSCRNS/10)==0:
-            print("{}% complete".format(100*float(n)/NSCRNS))
+            print(f"{100*float(n) / NSCRNS}% complete")
         # Make one big screen
         if subHarmonics:
             scrn = turbulence.ft_sh_phase_screen(
@@ -77,7 +77,7 @@ def getZernCoeffs_infinite(
     zCoeffs = numpy.zeros((nZerns, nScrns))
     for i in range(nScrns):
         if i % (nScrns / 10) == 0:
-            print("{}% complete".format(100 * float(i) / nScrns))
+            print(f"{100 * float(i) / nScrns}% complete")
         scrn.addRow(subScrnSize)
 
         subScrn = scrn.scrn.copy().reshape(subScrnSize*subScrnSize)

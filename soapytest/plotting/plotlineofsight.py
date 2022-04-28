@@ -42,21 +42,20 @@ def plotPhaseVariance(outputdir=None):
 def plotPhaseVariance_vs_scrnSize(outputdir=None):
     if outputdir is None:
         outputdir = os.path.join(SOAPYTEST_DIR, "plots/")
-        
+
     print("\nPLOT LOS PHASE VARIANCE vs SCRN SIZE\n***")
     phase_variance, phase_var_var = lineofsight.testphasevariance.testPhaseVariance_scrnSize()
-    
+
     xData = lineofsight.testphasevariance.R0_RANGE
     yData = phase_variance
     theo = 1.03 * (1./xData)**(5./3)
-    
+
     scrn_sizes= lineofsight.testphasevariance.SCRN_SIZES
     plot_list = [Scatter(x=xData, y=theo, name='Theoretical', line={'dash':'dash', 'color':'black'})]
-    for i, s in enumerate(scrn_sizes):
-        plot_list.append(
-                Scatter(x=xData, y=yData[i], 
-                name="Screen Size: {}x pupil".format(s)
-                ))
+    plot_list.extend(
+        Scatter(x=xData, y=yData[i], name=f"Screen Size: {s}x pupil")
+        for i, s in enumerate(scrn_sizes)
+    )
 
     filename = os.path.join(outputdir, 'losphasevariance_vs_scrnsize.html')
     plotly.offline.plot(
